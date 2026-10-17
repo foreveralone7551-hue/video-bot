@@ -606,10 +606,29 @@ async def handle_job(msg, url, kind):
 async def on_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = update.effective_message
     if msg:
-        await msg.reply_text(GREETING, parse_mode=ParseMode.HTML)
-
-
+        # Проверяем, что именно написал пользователь
+        if msg.text and msg.text.startswith('/help'):
+            help_text = (
+                "📖 <b>Инструкция по использованию бота</b>\n\n"
+                "Бот работает очень просто — ему нужна только ссылка!\n\n"
+                "1️⃣ <b>Найдите видео</b>\n"
+                "Откройте соцсеть и найдите нужный пост.\n\n"
+                "2️⃣ <b>Скопируйте ссылку</b>\n"
+                "Нажмите «Поделиться» под видео и выберите «Скопировать ссылку».\n\n"
+                "3️⃣ <b>Отправьте боту</b>\n"
+                "Вернитесь сюда, вставьте ссылку и отправьте её.\n\n"
+                "4️⃣ <b>Получите файл</b> ⚡\n"
+                "Подождите пару секунд, бот пришлет видео или аудио без водяных знаков.\n\n"
+                "💡 <i>Бот также работает в группах и каналах.</i>\n"
+                "Жду вашу первую ссылку! 👇"
+            )
+            await msg.reply_text(help_text, parse_mode=ParseMode.HTML)
+        else:
+            # Если это обычный /start, отправляем старое приветствие
+            await msg.reply_text(GREETING, parse_mode=ParseMode.HTML)
 async def on_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+
     msg = update.effective_message
     if not msg:
         return
